@@ -9,6 +9,7 @@ class Food extends Model
     protected $fillable = [
         'name',
         'price',
+        'space',
         'url_image',
         'expires_at',
     ];
