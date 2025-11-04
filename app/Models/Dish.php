@@ -13,8 +13,8 @@ class Dish extends Model
         'menu_id'
     ];
 
-    public function menu(){
-        return $this->hasOne(Menu::class);
+    public function dishMenus(){
+        return $this->hasMany(DishMenu::class);
     }
 
     public function requiredFood(){

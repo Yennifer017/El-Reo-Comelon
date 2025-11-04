@@ -16,12 +16,6 @@ return new class extends Migration
             $table->timestamps();
             $table->string("nombre");
             $table->enum("journey", ["BREAKFAST", "LUNCH", "DINNER"]);
-
-            $table->unsignedBigInteger('menu_id');
-            $table->foreign('menu_id')
-                ->references('id')
-                ->on('menus')
-                ->onDelete('restrict');
         });
     }
 

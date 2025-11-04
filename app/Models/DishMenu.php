@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RequiredFood extends Model
+class DishMenu extends Model
 {
     public function dish()
     {
@@ -15,5 +15,4 @@ class RequiredFood extends Model
     {
         return $this->hasOne(Menu::class);
     }
-    
 }
