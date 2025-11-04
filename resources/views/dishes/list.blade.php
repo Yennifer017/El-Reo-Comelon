@@ -22,32 +22,15 @@
         </div>
     </section>
 
-    <!-- feedback -->
-    <section class="mx-4 md:mx-auto max-w-6xl mt-3 w-full">
-        @if (session('success'))
-            <div class="bg-green-600 text-white p-3 rounded-lg text-center mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="bg-red-600 text-white p-3 rounded-lg text-center mb-4">
-                <ul class="list-none">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </section>
+    <x-feedback />
 
     <!-- Sección: agregar -->
     <section class="mx-4 md:mx-auto max-w-4xl mt-12 w-full">
         <div class="text-center mb-6">
-            <button id="toggleFormBtn"
+            <a id="toggleFormBtn" href="/dishes/create"
                 class="bg-neonLight text-gray-900 px-8 py-3 rounded-full font-semibold hover:scale-105 transform transition duration-300 shadow-lg">
                 + Agregar platillo
-            </button>
+            </a>
         </div>
     </section>
 
@@ -55,52 +38,61 @@
     <section class="mx-4 md:mx-auto max-w-6xl mt-16 mb-12 w-full">
         <h3 class="text-3xl font-bold mb-8 text-center text-neonLight">Lista de Platillos</h3>
 
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3" x-data="{ openModal: false, editFoodId: null, editName: '', editPrice: 0, editSpace: 0, editUrlImage: '', editExpiresAt: 0 }">
+        <div>
             @forelse($dishes as $dish)
-                <table class="min-w-full divide-y divide-gray-700">
-                    <thead class="bg-gray-900 text-neonLight uppercase text-sm">
-                        <tr>
-                            <th class="px-6 py-3 text-left">#</th>
-                            <th class="px-6 py-3 text-left">Nombre</th>
-                            <th class="px-6 py-3 text-left">Jornada</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-700 text-gray-300">
-                        @foreach ($dishes as $index => $dish)
-                            <tr class="hover:bg-gray-700/40 transition duration-200">
-                                <td class="px-6 py-4">{{ $index + 1 }}</td>
-                                <td class="px-6 py-4 font-semibold text-white">{{ $dish->nombre }}</td>
-                                <td class="px-6 py-4">
-                                    @if ($dish->journey === 'BREAKFAST')
-                                        <span
-                                            class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-semibold">Desayuno</span>
-                                    @elseif ($dish->journey === 'LUNCH')
-                                        <span
-                                            class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">Almuerzo</span>
-                                    @else
-                                        <span
-                                            class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">Cena</span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 text-center space-x-2">
-                                    <button
-                                        class="bg-blue-500 px-4 py-2 rounded-lg font-semibold hover:scale-105 transition duration-300">
-                                        Detalles
-                                    </button>
-                                    <form action="{{ route('dishes.destroy', $dish->id) }}" method="POST"
-                                        class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="bg-red-600 px-4 py-2 rounded-lg font-semibold hover:scale-105 transition duration-300">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </td>
+                <div class="w-full overflow-x-auto rounded-xl shadow-lg bg-gray-900 border border-gray-800">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-800 text-neonLight uppercase text-sm tracking-wider">
+                            <tr>
+                                <th class="px-6 py-3 border-b border-gray-700">#</th>
+                                <th class="px-6 py-3 border-b border-gray-700">Nombre</th>
+                                <th class="px-6 py-3 border-b border-gray-700">Jornada</th>
+                                <th class="px-6 py-3 border-b border-gray-700 text-center">Acciones</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700 text-gray-300">
+                            @foreach ($dishes as $index => $dish)
+                                <tr class="hover:bg-gray-800 transition duration-200">
+                                    <td class="px-6 py-4">{{ $index + 1 }}</td>
+                                    <td class="px-6 py-4 font-semibold text-white">{{ $dish->name }}</td>
+                                    <td class="px-6 py-4">
+                                        @if ($dish->journey === 'BREAKFAST')
+                                            <span
+                                                class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                                Desayuno
+                                            </span>
+                                        @elseif ($dish->journey === 'LUNCH')
+                                            <span
+                                                class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                                Almuerzo
+                                            </span>
+                                        @else
+                                            <span
+                                                class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                                Cena
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-center space-x-2">
+                                        <button
+                                            class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 hover:scale-105 transition duration-200">
+                                            Detalles
+                                        </button>
+                                        <form action="{{ route('dishes.destroy', $dish->id) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 hover:scale-105 transition duration-200">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @empty
                 <div class="col-span-full text-center text-gray-400 text-xl py-12">
                     No hay platillos registrados todavía.

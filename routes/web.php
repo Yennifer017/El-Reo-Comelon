@@ -23,7 +23,11 @@ Route::delete('/food/{id}', [FoodController::class, 'destroy'])
 Route::get('/dishes', [DishController::class, 'list'])
     ->name('dishes');
 Route::delete('/dishes/{id}', [DishController::class, 'destroy'])
-    ->name('food.destroy');
+    ->name('dishes.destroy');
+Route::get('dishes/create', [DishController::class, 'showCreateView'])
+    ->name('dishes.create');
+Route::post('dishes/create', [DishController::class, 'store'])
+    ->name('dishes.store');
 
 //menus
 Route::get('/menus', [MenuController::class, 'list'])

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('required_food', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer("quantity");
+            $table->float("quantity");
             
             $table->unsignedBigInteger('dish_id');
             $table->foreign('dish_id')

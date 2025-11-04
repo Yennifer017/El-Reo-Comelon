@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dishes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("nombre");
+            $table->string("name");
             $table->enum("journey", ["BREAKFAST", "LUNCH", "DINNER"]);
         });
     }
