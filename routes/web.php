@@ -3,6 +3,7 @@
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\SimulationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,3 +43,9 @@ Route::post('/menus/create', [MenuController::class, 'store'])
     ->name('menus.store');
 Route::get('/menus/{id}', [MenuController::class, 'show'])
     ->name('menus.show');
+
+//simulation
+Route::get('/simulation', [SimulationController::class, 'showSimulationView'])
+    ->name('simulation.init');
+Route::post('/simulation', [SimulationController::class, 'showSimulationView'])
+    ->name('simulation.start');

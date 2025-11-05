@@ -18,7 +18,7 @@
             <p class="text-gray-300 mb-8 text-lg md:text-xl drop-shadow-sm">
                 Simulación de gestión de procesos de comestibles en prisión
             </p>
-            <a href="#simulaciones" class="inline-block bg-neonLight text-gray-900 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:scale-105 transform transition duration-300">
+            <a href="/simulation" class="inline-block bg-neonLight text-gray-900 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:scale-105 transform transition duration-300">
                 Empezar simulación
             </a>
         </div>
