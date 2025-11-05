@@ -13,11 +13,11 @@ class DishMenu extends Model
 
     public function dish()
     {
-        return $this->hasOne(Dish::class);
+        return $this->belongsTo(Dish::class);
     }
 
     public function menu()
     {
-        return $this->hasOne(Menu::class);
+        return $this->belongsTo(Menu::class);
     }
 }

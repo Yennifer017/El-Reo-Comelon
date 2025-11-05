@@ -32,7 +32,11 @@ class MenuController extends Controller
 
     public function show($id)
     {
-
+        $menu = Menu::findOrFail($id);
+        return view(
+            'menus.view',
+            compact('menu')
+        );
     }
 
     public function delete($id)

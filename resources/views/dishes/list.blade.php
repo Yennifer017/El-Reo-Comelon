@@ -74,10 +74,10 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-center space-x-2">
-                                        <button
+                                        <a href="/dishes/{{ $dish->id }}"
                                             class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 hover:scale-105 transition duration-200">
                                             Detalles
-                                        </button>
+                                        </a>
                                         <form action="{{ route('dishes.destroy', $dish->id) }}" method="POST"
                                             class="inline">
                                             @csrf

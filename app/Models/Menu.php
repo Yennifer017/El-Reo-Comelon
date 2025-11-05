@@ -11,8 +11,8 @@ class Menu extends Model
         'is_premium'
     ];
 
-    public function dishes()
+    public function dishMenus()
     {
-        return $this->hasMany(Dish::class);
+        return $this->hasMany(DishMenu::class);
     }
 }

@@ -27,6 +27,14 @@ class DishController extends Controller
         );
     }
 
+    public function show($id){
+        $dish = Dish::findOrFail($id);
+        return view(
+            'dishes.view',
+            compact('dish')
+        );
+    }
+
     public function destroy($id)
     {
         $food = Dish::findOrFail($id);

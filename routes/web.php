@@ -28,6 +28,8 @@ Route::get('dishes/create', [DishController::class, 'showCreateView'])
     ->name('dishes.create');
 Route::post('dishes/create', [DishController::class, 'store'])
     ->name('dishes.store');
+Route::get('/dishes/{id}', [DishController::class, 'show'])
+    ->name('dishes.show');
 
 //menus
 Route::get('/menus', [MenuController::class, 'list'])

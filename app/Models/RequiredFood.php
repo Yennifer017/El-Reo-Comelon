@@ -14,12 +14,12 @@ class RequiredFood extends Model
 
     public function dish()
     {
-        return $this->hasOne(Dish::class);
+        return $this->belongsTo(Dish::class);
     }
 
-    public function menu()
+    public function food()
     {
-        return $this->hasOne(Menu::class);
+        return $this->belongsTo(Food::class);
     }
     
 }
