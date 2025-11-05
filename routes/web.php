@@ -32,5 +32,11 @@ Route::post('dishes/create', [DishController::class, 'store'])
 //menus
 Route::get('/menus', [MenuController::class, 'list'])
     ->name('menus');
+Route::delete('/menus/{id}', [MenuController::class, 'delete'])
+    ->name('menus.destroy');
+Route::get('/menus/create', [MenuController::class, 'showCreateView'])
+    ->name('menus.create');    
+Route::post('/menus/create', [MenuController::class, 'store'])
+    ->name('menus.store');
 Route::get('/menus/{id}', [MenuController::class, 'show'])
     ->name('menus.show');

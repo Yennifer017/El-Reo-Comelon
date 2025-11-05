@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('menu_id');
             $table->foreign('menu_id')
                 ->references('id')
-                ->on('menu')
+                ->on('menus')
                 ->onDelete('restrict');
         });
     }

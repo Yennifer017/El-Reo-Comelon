@@ -45,12 +45,6 @@ class DishController extends Controller
             'foods.*.quantity' => 'nullable|numeric|min:0.01',
         ]);
 
-        /*return response()->json([
-            'success' => true,
-            'message' => 'Datos recibidos correctamente',
-            'data' => $validated
-        ]);*/
-
         $dish = Dish::create([
             'name' => $validated['name'],
             'journey' => $validated['journey'],

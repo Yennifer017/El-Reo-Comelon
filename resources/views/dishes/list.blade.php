@@ -39,7 +39,7 @@
         <h3 class="text-3xl font-bold mb-8 text-center text-neonLight">Lista de Platillos</h3>
 
         <div>
-            @forelse($dishes as $dish)
+            @if(!$dishes->isEmpty())
                 <div class="w-full overflow-x-auto rounded-xl shadow-lg bg-gray-900 border border-gray-800">
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-gray-800 text-neonLight uppercase text-sm tracking-wider">
@@ -93,11 +93,11 @@
                         </tbody>
                     </table>
                 </div>
-            @empty
+            @else
                 <div class="col-span-full text-center text-gray-400 text-xl py-12">
                     No hay platillos registrados todavía.
                 </div>
-            @endforelse
+            @endIf
         </div>
     </section>
 

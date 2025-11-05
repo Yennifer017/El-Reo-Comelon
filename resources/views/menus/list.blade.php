@@ -27,10 +27,10 @@
     <!-- Sección: agregar -->
     <section class="mx-4 md:mx-auto max-w-4xl mt-12 w-full">
         <div class="text-center mb-6">
-            <button id="toggleFormBtn"
+            <a id="toggleFormBtn" href="/menus/create"
                 class="bg-neonLight text-gray-900 px-8 py-3 rounded-full font-semibold hover:scale-105 transform transition duration-300 shadow-lg">
                 + Agregar Menu
-            </button>
+            </a>
         </div>
     </section>
 
@@ -38,8 +38,8 @@
     <section class="mx-4 md:mx-auto max-w-6xl mt-16 mb-12 w-full">
         <h3 class="text-3xl font-bold mb-8 text-center text-neonLight">Lista de Menús</h3>
 
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3" x-data="{ openModal: false, editFoodId: null, editName: '', editPrice: 0, editSpace: 0, editUrlImage: '', editExpiresAt: 0 }">
-            @forelse($menus as $menu)
+        <div>
+            @if (!$menus->isEmpty())
                 <table class="min-w-full divide-y divide-gray-700">
                     <thead class="bg-gray-900 text-neonLight uppercase text-sm">
                         <tr>
@@ -67,21 +67,36 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    {{-- Botón Detalles --}}
                                     <a href="{{ route('menus.show', $menu->id) }}"
-                                        class="bg-neonLight text-gray-900 px-4 py-2 rounded-lg font-semibold hover:scale-105 transform transition duration-300 shadow-lg">
-                                        Ver detalles
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold 
+               hover:bg-blue-700 hover:scale-105 transition duration-200">
+                                        Detalles
                                     </a>
+
+                                    {{-- Botón Eliminar --}}
+                                    <form action="{{ route('menus.destroy', $menu->id) }}" method="POST"
+                                        class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold 
+                   hover:bg-red-700 hover:scale-105 transition duration-200">
+                                            Eliminar
+                                        </button>
+                                    </form>
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            @empty
+            @else
                 <div class="col-span-full text-center text-gray-400 text-xl py-12">
                     No hay menús registrados todavía.
                 </div>
-            @endforelse
+            @endIf
         </div>
     </section>
 
