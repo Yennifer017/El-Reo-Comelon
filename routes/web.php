@@ -47,5 +47,5 @@ Route::get('/menus/{id}', [MenuController::class, 'show'])
 //simulation
 Route::get('/simulation', [SimulationController::class, 'showSimulationView'])
     ->name('simulation.init');
-Route::post('/simulation', [SimulationController::class, 'showSimulationView'])
+Route::post('/simulation', [SimulationController::class, 'start'])
     ->name('simulation.start');

@@ -52,8 +52,9 @@ class SimulationController extends Controller
             'perishable_purchase_cost' => (float) $validated['perishable_purchase_cost'],
         ];
 
-        return view('simulations.run', compact('simulationData'));
+        return view('simulation.run', compact('simulationData'));
     }
+
 
 
 }
