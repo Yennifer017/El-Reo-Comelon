@@ -35,16 +35,16 @@ class SimulationController extends Controller
             $validated['premium_preference'] = 0;
         }
 
-        $standardMenu = Menu::findOrFail($validated['standard_menu']);
+        $standardMenu = Menu::with('dishMenus.dish.requiredFood.food')
+            ->findOrFail($validated['standard_menu']);
         $premiumMenu = $validated['premium_menu']
-            ? Menu::findOrFail($validated['premium_menu'])
+            ? Menu::with('dishMenus.dish.requiredFood.food')
+                ->findOrFail($validated['premium_menu'])
             : null;
 
         $simulationData = [
             'duration' => (int) $validated['duration'],
             'total_prisoners' => (int) $validated['total_prisoners'],
-            'standard_menu' => $standardMenu,
-            'premium_menu' => $premiumMenu,
             'premium_preference' => (float) $validated['premium_preference'],
             'main_storage' => (float) $validated['main_storage'],
             'alt_storage' => (float) ($validated['alt_storage'] ?? (float) $validated['main_storage']),
@@ -52,7 +52,10 @@ class SimulationController extends Controller
             'perishable_purchase_cost' => (float) $validated['perishable_purchase_cost'],
         ];
 
-        return view('simulation.run', compact('simulationData'));
+        return view(
+            'simulation.run',
+            compact('simulationData', 'standardMenu', 'premiumMenu')
+        );
     }
 
 
