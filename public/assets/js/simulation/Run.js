@@ -2,6 +2,8 @@ import Menu from './models/Menu.js';
 import Dish from './models/Dish.js';
 import Food from './models/Food.js';
 import { parseMenuData } from './utils/Converter.js';
+import PrisionerAdmin from './utils/PrisionerAdmin.js';
+import DayStatistic from './statistics/DayStatistic.js';
 
 const canvas = document.getElementById('simulationCanvas');
 const ctx = canvas.getContext('2d');
@@ -11,76 +13,63 @@ const prisoners = window.simulationData.total_prisoners;
 const duration = window.simulationData.duration;
 let day = 1;
 
+const percentagePremium = window.simulationData.premium_preference;
+const statistics = [];
+
 //menus
 const premiumMenu = parseMenuData(window.premiumMenu);
 const standardMenu = parseMenuData(window.standardMenu);
 
-console.log(premiumMenu);
-console.log(standardMenu);
-
 // Personajes
-const prisonerImg = new Image();
-prisonerImg.src = window.REO_IMG;
-
-const characters = [];
-for (let i = 0; i < Math.min(prisoners, 50); i++) {
-    characters.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * (canvas.height / 2) + 50,
-        dx: (Math.random() - 0.5) * 3, // velocidad horizontal
-        dy: (Math.random() - 0.5) * 2, // velocidad vertical
-        size: 32 + Math.random() * 10,
-        bob: Math.random() * Math.PI * 2 // fase de movimiento sinusoidal
-    });
-}
-
-function drawPrisoners() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    characters.forEach(c => {
-        // Movimiento base
-        c.x += c.dx;
-        c.y += c.dy + Math.sin(c.bob) * 0.5;
-        c.bob += 0.1;
-
-        // Rebotes horizontales
-        if (c.x < 0 || c.x + c.size > canvas.width) c.dx *= -1;
-        // Rebotes verticales
-        if (c.y < 0 || c.y + c.size > canvas.height) c.dy *= -1;
-
-        ctx.drawImage(prisonerImg, c.x, c.y, c.size, c.size);
-    });
-}
+const prisionerAdmin = new PrisionerAdmin(prisoners, window.REO_IMG, canvas, ctx);
 
 function logMessage(msg, showDay = false) {
     const p = document.createElement('p');
     if (showDay) {
         p.textContent = `[Día ${day}] ${msg}`;
+        p.classList.add('text-blue-300');
     } else {
-        p.textContent = `[Info] ${msg}`
+        p.textContent = `    [Info] ${msg}`
+        p.classList.add('text-gray-300');
     }
-    p.classList.add('text-gray-300');
     consoleOutput.appendChild(p);
     consoleOutput.scrollTop = consoleOutput.scrollHeight;
 }
 
 function simulateDay() {
-    drawPrisoners();
+    prisionerAdmin.drawPrisoners();
     logMessage(`Procesando actividades de ${prisoners} reos...`, true);
     day++;
+
+    const dayStatistic = new DayStatistic();
+    //por cada prisionero guardar un registro de lo que pidio
+    for (let i = 0; i < prisoners; i++) {
+        const random = Math.floor(Math.random() * 100); // número entre 0 y 99
+        if (random < percentagePremium) {
+            dayStatistic.incrementTotalPremiumMenu(premiumMenu);
+        } else {
+            dayStatistic.incrementTotalStandartMenu(standardMenu);
+        }
+    }
+    logMessage(dayStatistic.getMenusLog());
+    logMessage(dayStatistic.getDishesLog());
+    statistics.push(dayStatistic);
+
+
+    //pasar al siguiente dia
     if (day <= duration) {
         setTimeout(simulateDay, 1000);
     } else {
-        logMessage("Simulación finalizada ✅");
+        logMessage("Simulación finalizada... Calculando resultados... ");
     }
 }
 
 function animate() {
-    drawPrisoners();
+    prisionerAdmin.drawPrisoners();
     requestAnimationFrame(animate);
 }
 
-prisonerImg.onload = () => {
+prisionerAdmin.getPrisionerImg().onload = () => {
     animate();
     simulateDay();
 };
